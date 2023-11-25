@@ -1,0 +1,16 @@
+//
+// Created by Olcay Taner YILDIZ on 21.11.2023.
+//
+
+#ifndef WORDNET_INTERLINGUALDEPENDENCYTYPE_H
+#define WORDNET_INTERLINGUALDEPENDENCYTYPE_H
+
+enum interlingual_dependency_type{
+    HYPERNYM_ILR, NEAR_ANTONYM, HOLO_MEMBER, HOLO_PART, HOLO_PORTION,
+    USAGE_DOMAIN, CATEGORY_DOMAIN, BE_IN_STATE, SUBEVENT, VERB_GROUP_ILR,
+    SIMILAR_TO_ILR, ALSO_SEE_ILR, CAUSES, SYNONYM
+};
+
+typedef enum interlingual_dependency_type Interlingual_dependency_type;
+
+#endif //WORDNET_INTERLINGUALDEPENDENCYTYPE_H
