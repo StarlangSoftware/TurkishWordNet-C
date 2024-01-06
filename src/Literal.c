@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <StringUtils.h>
 #include <FileUtils.h>
+#include <Memory/Memory.h>
 #include "Literal.h"
 #include "SemanticRelation.h"
 
@@ -16,7 +17,7 @@
  * @param synSetId ID of the SynSet
  */
 Literal_ptr create_literal(const char *name, int sense, const char *syn_set_id) {
-    Literal_ptr result = malloc(sizeof(Literal));
+    Literal_ptr result = malloc_(sizeof(Literal), "create_literal");
     result->name = str_copy(result->name, name);
     result->sense = sense;
     result->syn_set_id = str_copy(result->syn_set_id, syn_set_id);
@@ -27,11 +28,11 @@ Literal_ptr create_literal(const char *name, int sense, const char *syn_set_id) 
 }
 
 void free_literal(Literal_ptr literal) {
-    free(literal->origin);
+    free_(literal->origin);
     free_array_list(literal->relations, (void (*)(void *)) free_semantic_relation);
-    free(literal->name);
-    free(literal->syn_set_id);
-    free(literal);
+    free_(literal->name);
+    free_(literal->syn_set_id);
+    free_(literal);
 }
 
 /**

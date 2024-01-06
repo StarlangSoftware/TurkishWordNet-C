@@ -5,6 +5,7 @@
 #include <StringUtils.h>
 #include <stdlib.h>
 #include <FileUtils.h>
+#include <Memory/Memory.h>
 #include "SemanticRelation.h"
 
 static char *semantic_dependency[25] = {"ANTONYM", "HYPERNYM",
@@ -42,7 +43,7 @@ Semantic_relation_type get_semantic_tag(const char *tag) {
  * @param relationType String semantic dependency tag
  */
 Semantic_relation_ptr create_semantic_relation(const char *name, const char *relation_type, int to_index) {
-    Semantic_relation_ptr result = malloc(sizeof(Semantic_relation));
+    Semantic_relation_ptr result = malloc_(sizeof(Semantic_relation), "create_semantic_relation");
     result->name = str_copy(result->name, name);
     result->relation_type = get_semantic_tag(relation_type);
     result->to_index = to_index;
@@ -57,7 +58,7 @@ Semantic_relation_ptr create_semantic_relation(const char *name, const char *rel
  * @param toIndex      index of the relation
  */
 Semantic_relation_ptr create_semantic_relation2(const char *name, Semantic_relation_type relation_type, int to_index) {
-    Semantic_relation_ptr result = malloc(sizeof(Semantic_relation));
+    Semantic_relation_ptr result = malloc_(sizeof(Semantic_relation), "create_semantic_relation2");
     result->name = str_copy(result->name, name);
     result->relation_type = relation_type;
     result->to_index = to_index;
@@ -135,13 +136,12 @@ char *get_semantic_relation_type_as_string(Semantic_relation_type semantic_relat
 char *semantic_relation_to_string(Semantic_relation_ptr semantic_relation) {
     char tmp[MAX_LINE_LENGTH];
     sprintf(tmp, "%s->%s", get_semantic_relation_type_as_string(semantic_relation->relation_type), semantic_relation->name);
-    char* result = str_copy(result, tmp);
-    return result;
+    return clone_string(tmp);
 }
 
 void free_semantic_relation(Semantic_relation_ptr semantic_relation) {
-    free(semantic_relation->name);
-    free(semantic_relation);
+    free_(semantic_relation->name);
+    free_(semantic_relation);
 }
 
 int compare_relation(const Semantic_relation *relation1, const Semantic_relation *relation2) {

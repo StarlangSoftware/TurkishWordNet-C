@@ -5,6 +5,7 @@
 #include <StringUtils.h>
 #include <stdlib.h>
 #include <FileUtils.h>
+#include <Memory/Memory.h>
 #include "InterlingualRelation.h"
 
 static char *interlingual_dependency[14] = {"Hypernym", "Near_antonym", "Holo_member", "Holo_part", "Holo_portion",
@@ -40,15 +41,15 @@ Interlingual_dependency_type get_interlingual_dependency_tag(const char *tag) {
  * @param dependencyType interlingual dependency type
  */
 Interlingual_relation_ptr create_interlingual_relation(const char *name, const char *dependency_type) {
-    Interlingual_relation_ptr result = malloc(sizeof(Interlingual_relation));
+    Interlingual_relation_ptr result = malloc_(sizeof(Interlingual_relation), "create_interlingual_relation");
     result->name = str_copy(result->name, name);
     result->dependency_type = get_interlingual_dependency_tag(dependency_type);
     return result;
 }
 
 void free_interlingual_relation(Interlingual_relation_ptr interlingual_relation) {
-    free(interlingual_relation->name);
-    free(interlingual_relation);
+    free_(interlingual_relation->name);
+    free_(interlingual_relation);
 }
 
 /**
@@ -68,6 +69,5 @@ char *get_interlingual_relation_type_as_string(Interlingual_dependency_type inte
 char *interlingual_relation_to_string(Interlingual_relation_ptr interlingual_relation) {
     char tmp[MAX_LINE_LENGTH];
     sprintf(tmp, "%s->%s", get_interlingual_relation_type_as_string(interlingual_relation->dependency_type), interlingual_relation->name);
-    char* result = str_copy(result, tmp);
-    return result;
+    return clone_string(tmp);
 }

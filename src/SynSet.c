@@ -9,6 +9,7 @@
 #include <string.h>
 #include "SynSet.h"
 #include "InterlingualRelation.h"
+#include "Memory/Memory.h"
 
 /**
  * Constructor initialize SynSet ID, synonym and relations list.
@@ -16,7 +17,7 @@
  * @param id Synset ID
  */
 Syn_set_ptr create_syn_set(const char *id) {
-    Syn_set_ptr result = malloc(sizeof(Syn_set));
+    Syn_set_ptr result = malloc_(sizeof(Syn_set), "create_syn_set");
     result->id = str_copy(result->id, id);
     result->definition = create_array_list();
     result->example = NULL;
@@ -37,15 +38,15 @@ void free_syn_set(Syn_set_ptr syn_set) {
             free_interlingual_relation(array_list_get(syn_set->relations, i));
         }
     }
-    free(syn_set->relations);
-    free_array_list(syn_set->relation_types, free);
-    free_array_list(syn_set->definition, free);
-    free(syn_set->id);
-    free(syn_set->example);
-    free(syn_set->note);
-    free(syn_set->wiki_page);
+    free_(syn_set->relations);
+    free_array_list(syn_set->relation_types, free_);
+    free_array_list(syn_set->definition, free_);
+    free_(syn_set->id);
+    free_(syn_set->example);
+    free_(syn_set->note);
+    free_(syn_set->wiki_page);
     free_synonym(syn_set->synonym);
-    free(syn_set);
+    free_(syn_set);
 }
 
 /**
@@ -58,7 +59,7 @@ void set_id(Syn_set_ptr syn_set, char *id) {
         Literal_ptr literal = get_literal(syn_set->synonym, i);
         literal->syn_set_id = str_copy(literal->syn_set_id, id);
     }
-    free(syn_set->id);
+    free_(syn_set->id);
     syn_set->id = str_copy(syn_set->id, id);
 }
 
@@ -69,7 +70,7 @@ void set_id(Syn_set_ptr syn_set, char *id) {
  */
 void set_definition(Syn_set_ptr syn_set, const char *definition) {
     if (definition != NULL){
-        free_array_list(syn_set->definition, free);
+        free_array_list(syn_set->definition, free_);
         syn_set->definition = str_split(definition, '|');
     }
 }
@@ -108,8 +109,7 @@ char *get_long_definition(const Syn_set* syn_set) {
         for (int i = 1; i < syn_set->definition->size; i++){
             sprintf(tmp, "%s|%s", tmp, (char*) array_list_get(syn_set->definition, i));
         }
-        char* result = str_copy(result, tmp);
-        return result;
+        return clone_string(tmp);
     } else {
         return NULL;
     }
@@ -204,7 +204,7 @@ void remove_relation_from_syn_set(Syn_set_ptr syn_set, void* _relation) {
         } else {
             array_list_remove(syn_set->relations, index, (void (*)(void *)) free_interlingual_relation);
         }
-        array_list_remove(syn_set->relation_types, index, free);
+        array_list_remove(syn_set->relation_types, index, free_);
     }
 }
 
@@ -238,7 +238,7 @@ void remove_relation_with_name(Syn_set_ptr syn_set, char *name) {
         } else {
             array_list_remove(syn_set->relations, index, (void (*)(void *)) free_interlingual_relation);
         }
-        array_list_remove(syn_set->relation_types, index, free);
+        array_list_remove(syn_set->relation_types, index, free_);
     }
 }
 

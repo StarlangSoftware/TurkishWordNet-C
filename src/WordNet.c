@@ -11,6 +11,7 @@
 #include "SynSet.h"
 #include "InterlingualRelation.h"
 #include <Dictionary/ExceptionalWord.h>
+#include <Memory/Memory.h>
 
 /**
  * ReadWordNetTask class extends SwingWorker class which is an abstract class to perform lengthy
@@ -200,7 +201,7 @@ void read_exception_file(Word_net_ptr word_net, const char *exception_file_name)
  * on a <i>worker</i> thread.
  */
 Word_net_ptr create_word_net() {
-    Word_net_ptr result = malloc(sizeof(Word_net));
+    Word_net_ptr result = malloc_(sizeof(Word_net), "create_word_net");
     result->interlingual_list = create_string_hash_map();
     result->exception_list = create_string_hash_map();
     result->literal_list = create_string_hash_map();
@@ -216,7 +217,7 @@ Word_net_ptr create_word_net() {
  * @param file_name resource to be read for the WordNet task
  */
 Word_net_ptr create_word_net2(const char *file_name) {
-    Word_net_ptr result = malloc(sizeof(Word_net));
+    Word_net_ptr result = malloc_(sizeof(Word_net), "create_word_net2");
     result->interlingual_list = create_string_hash_map();
     result->exception_list = create_string_hash_map();
     result->literal_list = create_string_hash_map();
@@ -235,7 +236,7 @@ Word_net_ptr create_word_net2(const char *file_name) {
  * @param exceptionFileName exception file to be read
  */
 Word_net_ptr create_word_net3(const char *file_name, const char *exception_file_name) {
-    Word_net_ptr result = malloc(sizeof(Word_net));
+    Word_net_ptr result = malloc_(sizeof(Word_net), "create_word_net3");
     result->interlingual_list = create_string_hash_map();
     result->exception_list = create_string_hash_map();
     result->literal_list = create_string_hash_map();
@@ -521,7 +522,7 @@ Array_list_ptr construct_literals(const Word_net *word_net,
                 free_array_list(added, NULL);
             }
             free_array_list(list, NULL);
-            free_hash_set(possible_words, free);
+            free_hash_set(possible_words, free_);
         } else {
             Array_list_ptr added = get_literals_with_name(word_net, word);
             array_list_add_all(result, added);
@@ -639,7 +640,7 @@ Array_list_ptr construct_syn_sets(const Word_net *word_net,
                 }
                 free_array_list(list, NULL);
             }
-            free_hash_set(possible_words, free);
+            free_hash_set(possible_words, free_);
         } else {
             Array_list_ptr syn_sets = get_syn_sets_with_literal(word_net, word);
             array_list_add_all(result, syn_sets);
@@ -702,9 +703,9 @@ Array_list_ptr construct_idiom_literals_of_3(const Word_net *word_net,
     free_array_list(list1, NULL);
     free_array_list(list2, NULL);
     free_array_list(list3, NULL);
-    free_hash_set(possible_words1, free);
-    free_hash_set(possible_words2, free);
-    free_hash_set(possible_words3, free);
+    free_hash_set(possible_words1, free_);
+    free_hash_set(possible_words2, free_);
+    free_hash_set(possible_words3, free_);
     return result;
 }
 
@@ -756,9 +757,9 @@ Array_list_ptr construct_idiom_syn_sets_of_3(const Word_net *word_net,
     free_array_list(list1, NULL);
     free_array_list(list2, NULL);
     free_array_list(list3, NULL);
-    free_hash_set(possible_words1, free);
-    free_hash_set(possible_words2, free);
-    free_hash_set(possible_words3, free);
+    free_hash_set(possible_words1, free_);
+    free_hash_set(possible_words2, free_);
+    free_hash_set(possible_words3, free_);
     return result;
 }
 
@@ -796,8 +797,8 @@ Array_list_ptr construct_idiom_literals_of_2(const Word_net *word_net,
     }
     free_array_list(list1, NULL);
     free_array_list(list2, NULL);
-    free_hash_set(possible_words1, free);
-    free_hash_set(possible_words2, free);
+    free_hash_set(possible_words1, free_);
+    free_hash_set(possible_words2, free_);
     return result;
 }
 
@@ -838,8 +839,8 @@ Array_list_ptr construct_idiom_syn_sets_of_2(const Word_net *word_net,
     }
     free_array_list(list1, NULL);
     free_array_list(list2, NULL);
-    free_hash_set(possible_words1, free);
-    free_hash_set(possible_words2, free);
+    free_hash_set(possible_words1, free_);
+    free_hash_set(possible_words2, free_);
     return result;
 }
 
@@ -877,7 +878,7 @@ int find_lcs_depth(const Array_list *path_to_root_of_syn_set1, const Array_list 
     if (tuple->key != NULL) {
         result = *(int*)tuple->value;
     }
-    free_hash_node(tuple, free, free);
+    free_hash_node(tuple, free_, free_);
     return result;
 }
 
@@ -891,7 +892,7 @@ int find_lcs_depth(const Array_list *path_to_root_of_syn_set1, const Array_list 
 char* find_lcs_id(const Array_list *path_to_root_of_syn_set1, const Array_list *path_to_root_of_syn_set2) {
     Hash_node_ptr tuple = find_lcs(path_to_root_of_syn_set1, path_to_root_of_syn_set2);
     char* result = tuple->key;
-    free_hash_node(tuple, NULL, free);
+    free_hash_node(tuple, NULL, free_);
     return result;
 }
 
@@ -909,12 +910,12 @@ Hash_node_ptr find_lcs(const Array_list *path_to_root_of_syn_set1, const Array_l
                                              lcs_id,
                                              (int (*)(const void *, const void *)) compare_string)){
             char* st1 = str_copy(st1, lcs_id);
-            int* index = malloc(sizeof(int));
+            int* index = malloc_(sizeof(int), "find_lcs_1");
             *index = path_to_root_of_syn_set1->size - i + 1;
             return create_hash_node(st1, index);
         }
     }
-    int* index = malloc(sizeof(int));
+    int* index = malloc_(sizeof(int), "find_lcs_2");
     *index = -1;
     return create_hash_node(NULL, index);
 }
@@ -964,7 +965,7 @@ Syn_set_ptr percolate_up(const Word_net *word_net, Syn_set_ptr root) {
  */
 void change_syn_set_id(Word_net_ptr word_net, Syn_set_ptr s, char *new_id) {
     hash_map_remove(word_net->syn_set_list, s->id, NULL);
-    free(s->id);
+    free_(s->id);
     s->id = str_copy(s->id, new_id);
     hash_map_insert(word_net->syn_set_list, s->id, s);
 }
@@ -987,5 +988,5 @@ void free_word_net(Word_net_ptr word_net) {
         free_array_list(list2, NULL);
     }
     free_array_list(list, NULL);
-    free(word_net);
+    free_(word_net);
 }

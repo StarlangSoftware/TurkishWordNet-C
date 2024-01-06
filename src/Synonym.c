@@ -6,18 +6,19 @@
 #include <string.h>
 #include <FileUtils.h>
 #include <StringUtils.h>
+#include <Memory/Memory.h>
 #include "Synonym.h"
 #include "Literal.h"
 
 Synonym_ptr create_synonym() {
-    Synonym_ptr result = malloc(sizeof(Synonym));
+    Synonym_ptr result = malloc_(sizeof(Synonym), "create_synonym");
     result->literals = create_array_list();
     return result;
 }
 
 void free_synonym(Synonym_ptr synonym) {
     free_array_list(synonym->literals, (void (*)(void *)) free_literal);
-    free(synonym);
+    free_(synonym);
 }
 
 /**
@@ -105,6 +106,5 @@ char *synonym_to_string(const Synonym *synonym) {
     for (int i = 1; i < synonym->literals->size; i++){
         sprintf(tmp, "%s %s", tmp, ((Literal_ptr) array_list_get(synonym->literals, i))->name);
     }
-    char* result = str_copy(result, tmp);
-    return result;
+    return clone_string(tmp);
 }
