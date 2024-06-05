@@ -14,8 +14,13 @@
 #include <Memory/Memory.h>
 
 /**
- * ReadWordNetTask class extends SwingWorker class which is an abstract class to perform lengthy
- * GUI-interaction tasks in a background thread.
+ * Reads a wordnet from a Xml file. A wordnet consists of a list of synsets encapsulated inside SYNSET tag. A synset
+ * has an id (represented with ID tag), a set of literals encapsulated inside SYNONYM tag, part of speech tag
+ * (represented with POS tag), a set of semantic relations encapsulated inside SR tag, a definition (represented
+ * with DEF tag), and a possible example (represented with EXAMPLE tag). Each literal has a name, possibly a group
+ * number (represented with GROUP tag), a sense number (represented with SENSE tag) and a set of semantic relations
+ * encapsulated inside SR tag. A semantic relation has a name and a type (represented with TYPE tag).
+ * @param inputStream File stream that contains the wordnet.
  */
 void read_word_net(Word_net_ptr word_net, const char *file_name) {
     Xml_element_ptr root_node, syn_set_node, part_node, semantic_relation_node, type_node, to_node, literal_node, sense_node;
@@ -970,6 +975,10 @@ void change_syn_set_id(Word_net_ptr word_net, Syn_set_ptr s, char *new_id) {
     hash_map_insert(word_net->syn_set_list, s->id, s);
 }
 
+/**
+ * Frees memory allocated to a WordNet object.
+ * @param word_net WordNet to be deallocated.
+ */
 void free_word_net(Word_net_ptr word_net) {
     free_hash_map(word_net->syn_set_list, (void (*)(void *)) free_syn_set);
     Array_list_ptr list = key_list(word_net->literal_list);

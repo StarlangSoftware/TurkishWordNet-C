@@ -29,6 +29,11 @@ Syn_set_ptr create_syn_set(const char *id) {
     return result;
 }
 
+/**
+ * Frees memory allocated to a synset. Frees memory allocated to semantic relations in relations
+ * array, relation_types and definition array lists, id, example, note, wiki_page and synonym object.
+ * @param syn_set Synset to be deallocated.
+ */
 void free_syn_set(Syn_set_ptr syn_set) {
     for (int i = 0; i < syn_set->relation_types->size; i++){
         int type = array_list_get_int(syn_set->relation_types, i);

@@ -2,10 +2,16 @@
 // Created by Olcay Taner YILDIZ on 25.11.2023.
 //
 
-#include <stdlib.h>
 #include <Memory/Memory.h>
 #include "SimilarityPath.h"
 
+/**
+ * Computes wordnet similarity metric based on similarity path between two synsets.
+ * @param word_net WordNet for which similarity metrics will be calculated.
+ * @param syn_set1 First synset
+ * @param syn_set2 Second synset
+ * @return Wordnet similarity metric based on similarity path between two synsets.
+ */
 double compute_similarity_similarity_path(Word_net_ptr word_net,
                                           Syn_set_ptr syn_set1,
                                           Syn_set_ptr syn_set2) {

@@ -2,7 +2,6 @@
 // Created by Olcay Taner YILDIZ on 22.11.2023.
 //
 
-#include <stdlib.h>
 #include <StringUtils.h>
 #include <FileUtils.h>
 #include <Memory/Memory.h>
@@ -27,6 +26,10 @@ Literal_ptr create_literal(const char *name, int sense, const char *syn_set_id) 
     return result;
 }
 
+/**
+ * Frees memory allocated for a literal. Frees origin, array list of relations, name and synset id.
+ * @param literal Literal to be deallocated.
+ */
 void free_literal(Literal_ptr literal) {
     free_(literal->origin);
     free_array_list(literal->relations, (void (*)(void *)) free_semantic_relation);
@@ -106,6 +109,13 @@ char *literal_to_string(const Literal *literal) {
     return result;
 }
 
+/**
+ * Comparator method to compare two literals based on their names first, then their senses second.
+ * @param literal1 First literal to compare
+ * @param literal2 Second literal to compare
+ * @return -1 if the first literal comes first lexicographically, 1 if the second literal comes first lexicographically,
+ * 0 otherwise.
+ */
 int compare_literal(const Literal *literal1, const Literal *literal2) {
     int result = compare_string(literal1->name, literal2->name);
     if (result == 0){

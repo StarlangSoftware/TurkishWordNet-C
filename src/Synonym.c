@@ -10,12 +10,19 @@
 #include "Synonym.h"
 #include "Literal.h"
 
+/**
+ * A constructor that creates a new {@link ArrayList} literals.
+ */
 Synonym_ptr create_synonym() {
     Synonym_ptr result = malloc_(sizeof(Synonym), "create_synonym");
     result->literals = create_array_list();
     return result;
 }
 
+/**
+ * Frees memory allocated to a synonym. Frees literals array list.
+ * @param synonym Synonym to be deallocated.
+ */
 void free_synonym(Synonym_ptr synonym) {
     free_array_list(synonym->literals, (void (*)(void *)) free_literal);
     free_(synonym);

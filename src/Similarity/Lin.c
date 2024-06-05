@@ -6,6 +6,14 @@
 #include <Memory/Memory.h>
 #include "Lin.h"
 
+/**
+ * Computes Lin wordnet similarity metric between two synsets.
+ * @param word_net WordNet for which similarity metrics will be calculated.
+ * @param information_contents Information content hash map.
+ * @param syn_set1 First synset
+ * @param syn_set2 Second synset
+ * @return Lin wordnet similarity metric between two synsets
+ */
 double compute_similarity_lin(Word_net_ptr word_net,
                               Hash_map_ptr information_contents,
                               Syn_set_ptr syn_set1,

@@ -7,6 +7,13 @@
 #include <Memory/Memory.h>
 #include "LCH.h"
 
+/**
+ * Computes LCH wordnet similarity metric between two synsets.
+ * @param word_net WordNet for which similarity metrics will be calculated.
+ * @param syn_set1 First synset
+ * @param syn_set2 Second synset
+ * @return LCH wordnet similarity metric between two synsets
+ */
 double compute_similarity_lch(Word_net_ptr word_net,
                               Syn_set_ptr syn_set1,
                               Syn_set_ptr syn_set2) {

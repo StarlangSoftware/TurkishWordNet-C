@@ -47,6 +47,10 @@ Interlingual_relation_ptr create_interlingual_relation(const char *name, const c
     return result;
 }
 
+/**
+ * Frees memory allocated for an interlingual relation.
+ * @param interlingual_relation Interlingual relation to be deallocated.
+ */
 void free_interlingual_relation(Interlingual_relation_ptr interlingual_relation) {
     free_(interlingual_relation->name);
     free_(interlingual_relation);
@@ -66,6 +70,11 @@ char *get_interlingual_relation_type_as_string(Interlingual_dependency_type inte
     return NULL;
 }
 
+/**
+ * toString method to print interlingual dependency type.
+ *
+ * @return String of relation name
+ */
 char *interlingual_relation_to_string(Interlingual_relation_ptr interlingual_relation) {
     char tmp[MAX_LINE_LENGTH];
     sprintf(tmp, "%s->%s", get_interlingual_relation_type_as_string(interlingual_relation->dependency_type), interlingual_relation->name);
