@@ -85,18 +85,19 @@ void test_number_of_syn_sets_with_literal(Word_net_ptr turkish){
 }
 
 void test_get_syn_sets_with_part_of_speech_single(Word_net_ptr turkish, Pos pos, int count){
-    if (get_syn_sets_with_part_of_speech(turkish, pos)->size != count){
-        printf("Error with pos %d with %d\n", pos, get_syn_sets_with_part_of_speech(turkish, NOUN_POS)->size);
+    Array_list_ptr list = get_syn_sets_with_part_of_speech(turkish, pos);
+    if (list->size != count){
+        printf("Error with pos %d with %d\n", pos, list->size);
     }
 }
 
 void test_get_syn_sets_with_part_of_speech(Word_net_ptr turkish){
-    test_get_syn_sets_with_part_of_speech_single(turkish, NOUN_POS, 43884);
-    test_get_syn_sets_with_part_of_speech_single(turkish, VERB_POS, 17772);
-    test_get_syn_sets_with_part_of_speech_single(turkish, ADJECTIVE_POS, 12410);
+    test_get_syn_sets_with_part_of_speech_single(turkish, NOUN_POS, 43882);
+    test_get_syn_sets_with_part_of_speech_single(turkish, VERB_POS, 17773);
+    test_get_syn_sets_with_part_of_speech_single(turkish, ADJECTIVE_POS, 12406);
     test_get_syn_sets_with_part_of_speech_single(turkish, ADVERB_POS, 2549);
     test_get_syn_sets_with_part_of_speech_single(turkish, INTERJECTION_POS, 1552);
-    test_get_syn_sets_with_part_of_speech_single(turkish, PRONOUN_POS, 68);
+    test_get_syn_sets_with_part_of_speech_single(turkish, PRONOUN_POS, 74);
     test_get_syn_sets_with_part_of_speech_single(turkish, CONJUNCTION_POS, 61);
     test_get_syn_sets_with_part_of_speech_single(turkish, PREPOSITION, 30);
 }
@@ -122,7 +123,7 @@ void test_get_interlingual(Word_net_ptr turkish){
 
 int main(){
     Word_net_ptr turkish = create_word_net();
-    if (turkish->literal_list->count != 82275){
+    if (turkish->literal_list->count != 82276){
         printf("Error in literal list size %d\n", turkish->literal_list->count);
     }
     int literal_count = 0;
@@ -132,10 +133,10 @@ int main(){
         literal_count += syn_set->synonym->literals->size;
     }
     free_array_list(list, NULL);
-    if (literal_count != 110258){
+    if (literal_count != 110259){
         printf("Error in literal count %d", literal_count);
     }
-    if (turkish->syn_set_list->count != 78326){
+    if (turkish->syn_set_list->count != 78327){
         printf("Error in synset list size %d", turkish->syn_set_list->count);
     }
     test_get_syn_set_with_id(turkish);
