@@ -132,6 +132,6 @@ Array_list_ptr find_path_to_root(const Word_net* word_net, Syn_set_ptr syn_set);
 
 Syn_set_ptr percolate_up(const Word_net* word_net, Syn_set_ptr root);
 
-void change_syn_set_id(Word_net_ptr word_net, Syn_set_ptr s, char* new_id);
+void change_syn_set_id(Word_net_ptr word_net, Syn_set_ptr s, const char* new_id);
 
 #endif //WORDNET_WORDNET_H

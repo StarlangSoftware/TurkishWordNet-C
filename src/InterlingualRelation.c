@@ -38,7 +38,7 @@ Interlingual_dependency_type get_interlingual_dependency_tag(const char *tag) {
  * according to specified String dependencyType.
  *
  * @param name           relation name
- * @param dependencyType interlingual dependency type
+ * @param dependency_type interlingual dependency type
  */
 Interlingual_relation_ptr create_interlingual_relation(const char *name, const char *dependency_type) {
     Interlingual_relation_ptr result = malloc_(sizeof(Interlingual_relation), "create_interlingual_relation");

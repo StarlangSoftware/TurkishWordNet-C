@@ -34,7 +34,7 @@ Syn_set_ptr create_syn_set(const char* id);
 
 void free_syn_set(Syn_set_ptr syn_set);
 
-void set_id(Syn_set_ptr syn_set, char* id);
+void set_id(Syn_set_ptr syn_set, const char* id);
 
 void set_definition(Syn_set_ptr syn_set, const char* definition);
 
@@ -58,7 +58,7 @@ void add_relation_to_syn_set(Syn_set_ptr syn_set, void* relation, int type);
 
 void remove_relation_from_syn_set(Syn_set_ptr syn_set, void* _relation);
 
-void remove_relation_with_name(Syn_set_ptr syn_set, char* name);
+void remove_relation_with_name(Syn_set_ptr syn_set, const char* name);
 
 void* get_relation(const Syn_set* syn_set, int index);
 

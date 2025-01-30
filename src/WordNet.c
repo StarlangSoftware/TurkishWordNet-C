@@ -20,11 +20,12 @@
  * with DEF tag), and a possible example (represented with EXAMPLE tag). Each literal has a name, possibly a group
  * number (represented with GROUP tag), a sense number (represented with SENSE tag) and a set of semantic relations
  * encapsulated inside SR tag. A semantic relation has a name and a type (represented with TYPE tag).
- * @param inputStream File stream that contains the wordnet.
+ * @param word_net Current wordnet object
+ * @param file_name File stream that contains the wordnet.
  */
 void read_word_net(Word_net_ptr word_net, const char *file_name) {
     Xml_element_ptr root_node, syn_set_node, part_node, semantic_relation_node, type_node, to_node, literal_node, sense_node;
-    Syn_set_ptr current_syn_set;
+    Syn_set_ptr current_syn_set = NULL;
     Literal_ptr current_literal;
     Xml_document_ptr doc = create_xml_document(file_name);
     parse(doc);
@@ -164,7 +165,8 @@ void read_word_net(Word_net_ptr word_net, const char *file_name) {
  * Method constructs a DOM parser using the dtd/xml schema parser configuration and using this parser it
  * reads exceptions from file and puts to exceptionList HashMap.
  *
- * @param exceptionFileName exception file to be read
+ * @param word_net Current wordnet object
+ * @param exception_file_name exception file to be read
  */
 void read_exception_file(Word_net_ptr word_net, const char *exception_file_name) {
     char* word_name, *root_form;
@@ -237,8 +239,8 @@ Word_net_ptr create_word_net2(const char *file_name) {
  * sets the Locale of the programme with the specified locale, and schedules the {@code SwingWorker} according
  * to file with a specified name for execution on a <i>worker</i> thread.
  *
- * @param fileName          resource to be read for the WordNet task
- * @param exceptionFileName exception file to be read
+ * @param file_name          resource to be read for the WordNet task
+ * @param exception_file_name exception file to be read
  */
 Word_net_ptr create_word_net3(const char *file_name, const char *exception_file_name) {
     Word_net_ptr result = malloc_(sizeof(Word_net), "create_word_net3");
@@ -254,6 +256,7 @@ Word_net_ptr create_word_net3(const char *file_name, const char *exception_file_
 /**
  * Adds a specified literal to the literal list.
  *
+ * @param word_net Current wordnet object
  * @param literal literal to be added
  */
 void add_literal_to_literal_list(Word_net_ptr word_net, Literal_ptr literal) {
@@ -270,6 +273,7 @@ void add_literal_to_literal_list(Word_net_ptr word_net, Literal_ptr literal) {
 /**
  * Returns the values of the SynSet list.
  *
+ * @param word_net Current wordnet object
  * @return values of the SynSet list
  */
 Array_list_ptr get_syn_set_list(const Word_net* word_net) {
@@ -279,6 +283,7 @@ Array_list_ptr get_syn_set_list(const Word_net* word_net) {
 /**
  * Returns the keys of the literal list.
  *
+ * @param word_net Current wordnet object
  * @return keys of the literal list
  */
 Array_list_ptr get_literal_list(const Word_net* word_net) {
@@ -288,6 +293,7 @@ Array_list_ptr get_literal_list(const Word_net* word_net) {
 /**
  * Adds specified SynSet to the SynSet list.
  *
+ * @param word_net Current wordnet object
  * @param syn_set SynSet to be added
  */
 void add_syn_set(Word_net_ptr word_net, Syn_set_ptr syn_set) {
@@ -297,6 +303,7 @@ void add_syn_set(Word_net_ptr word_net, Syn_set_ptr syn_set) {
 /**
  * Removes specified SynSet from the SynSet list.
  *
+ * @param word_net Current wordnet object
  * @param syn_set SynSet to be added
  */
 void remove_syn_set(Word_net_ptr word_net, Syn_set_ptr syn_set) {
@@ -306,6 +313,7 @@ void remove_syn_set(Word_net_ptr word_net, Syn_set_ptr syn_set) {
 /**
  * Returns SynSet with the specified SynSet ID.
  *
+ * @param word_net Current wordnet object
  * @param syn_set_id ID of the SynSet to be returned
  * @return SynSet with the specified SynSet ID
  */
@@ -316,6 +324,7 @@ Syn_set_ptr get_syn_set_with_id(const Word_net* word_net, const char *syn_set_id
 /**
  * Returns SynSet with the specified literal and sense index.
  *
+ * @param word_net Current wordnet object
  * @param literal SynSet literal
  * @param sense   SynSet's corresponding sense index
  * @return SynSet with the specified literal and sense index
@@ -337,6 +346,7 @@ Syn_set_ptr get_syn_set_with_literal(const Word_net *word_net, const char *liter
 /**
  * Returns the number of SynSets with a specified literal.
  *
+ * @param word_net Current wordnet object
  * @param literal literal to be searched in SynSets
  * @return the number of SynSets with a specified literal
  */
@@ -351,6 +361,7 @@ int number_of_syn_sets_with_literal(const Word_net *word_net, const char *litera
 /**
  * Returns a list of SynSets with a specified part of speech tag.
  *
+ * @param word_net Current wordnet object
  * @param pos part of speech tag to be searched in SynSets
  * @return a list of SynSets with a specified part of speech tag
  */
@@ -370,6 +381,7 @@ Array_list_ptr get_syn_sets_with_part_of_speech(const Word_net *word_net, Pos po
 /**
  * Returns a list of literals with a specified literal String.
  *
+ * @param word_net Current wordnet object
  * @param literal literal String to be searched in literal list
  * @return a list of literals with a specified literal String
  */
@@ -384,6 +396,7 @@ Array_list_ptr get_literals_with_name(const Word_net *word_net, const char *lite
 /**
  * Finds the SynSet with specified literal String and part of speech tag and adds to the given SynSet list.
  *
+ * @param word_net Current wordnet object
  * @param result  SynSet list to add the specified SynSet
  * @param literal literal String to be searched in literal list
  * @param pos     part of speech tag to be searched in SynSets
@@ -405,6 +418,7 @@ void add_syn_sets_with_literal_to_list(const Word_net *word_net,
 /**
  * Finds SynSets with specified literal String and adds to the newly created SynSet list.
  *
+ * @param word_net Current wordnet object
  * @param literal literal String to be searched in literal list
  * @return returns a list of SynSets with specified literal String
  */
@@ -426,6 +440,7 @@ Array_list_ptr get_syn_sets_with_literal(const Word_net *word_net, const char *l
 /**
  * Adds the reverse relations to the SynSet.
  *
+ * @param word_net Current wordnet object
  * @param syn_set           SynSet to add the reverse relations
  * @param semantic_relation relation whose reverse will be added
  */
@@ -444,6 +459,7 @@ void add_reverse_relation(const Word_net *word_net,
 /**
  * Removes the reverse relations from the SynSet.
  *
+ * @param word_net Current wordnet object
  * @param syn_set           SynSet to remove the reverse relation
  * @param semantic_relation relation whose reverse will be removed
  */
@@ -461,6 +477,7 @@ void remove_reverse_relation(const Word_net *word_net,
 
 /**
  * Loops through the SynSet list and adds the possible reverse relations.
+ * @param word_net Current wordnet object
  */
 void equalize_semantic_relations(const Word_net *word_net) {
     Array_list_ptr list = get_syn_set_list(word_net);
@@ -478,6 +495,7 @@ void equalize_semantic_relations(const Word_net *word_net) {
 
 /**
  * Sorts definitions of SynSets in SynSet list according to their lengths.
+ * @param word_net Current wordnet object
  */
 void sort_definitions_of_word_net(const Word_net *word_net) {
     Array_list_ptr list = get_syn_set_list(word_net);
@@ -490,7 +508,8 @@ void sort_definitions_of_word_net(const Word_net *word_net) {
 /**
  * Returns a list of SynSets with the interlingual relations of a specified SynSet ID.
  *
- * @param synSetId SynSet ID to be searched
+ * @param word_net Current wordnet object
+ * @param syn_set_id SynSet ID to be searched
  * @return a list of SynSets with the interlingual relations of a specified SynSet ID
  */
 Array_list_ptr get_interlingual_of_word_net(const Word_net *word_net, const char *syn_set_id) {
@@ -504,6 +523,7 @@ Array_list_ptr get_interlingual_of_word_net(const Word_net *word_net, const char
 /**
  * Creates a list of literals with a specified word, or possible words corresponding to morphological parse.
  *
+ * @param word_net Current wordnet object
  * @param word      literal String
  * @param parse     morphological parse to get possible words
  * @param meta_parse metamorphic parse to get possible words
@@ -544,6 +564,7 @@ Array_list_ptr construct_literals(const Word_net *word_net,
 /**
  * Creates a list of SynSets with a specified word, or possible words corresponding to morphological parse.
  *
+ * @param word_net Current wordnet object
  * @param word      literal String  to get SynSets with
  * @param parse     morphological parse to get SynSets with proper literals
  * @param meta_parse metamorphic parse to get possible words
@@ -665,6 +686,7 @@ Array_list_ptr construct_syn_sets(const Word_net *word_net,
 /**
  * Returns a list of literals using 3 possible words gathered with the specified morphological parses and metamorphic parses.
  *
+ * @param word_net Current wordnet object
  * @param parse1 morphological parse to get possible words
  * @param parse2 morphological parse to get possible words
  * @param parse3 morphological parse to get possible words
@@ -717,6 +739,7 @@ Array_list_ptr construct_idiom_literals_of_3(const Word_net *word_net,
 /**
  * Returns a list of SynSets using 3 possible words gathered with the specified morphological parses and metamorphic parses.
  *
+ * @param word_net Current wordnet object
  * @param parse1 morphological parse to get possible words
  * @param parse2 morphological parse to get possible words
  * @param parse3 morphological parse to get possible words
@@ -771,6 +794,7 @@ Array_list_ptr construct_idiom_syn_sets_of_3(const Word_net *word_net,
 /**
  * Returns a list of literals using 2 possible words gathered with the specified morphological parses and metamorphic parses.
  *
+ * @param word_net Current wordnet object
  * @param parse1 morphological parse to get possible words
  * @param parse2 morphological parse to get possible words
  * @param meta_parse1          metamorphic parse to get possible words
@@ -810,6 +834,7 @@ Array_list_ptr construct_idiom_literals_of_2(const Word_net *word_net,
 /**
  * Returns a list of SynSets using 2 possible words gathered with the specified morphological parses and metamorphic parses.
  *
+ * @param word_net Current wordnet object
  * @param parse1 morphological parse to get possible words
  * @param parse2 morphological parse to get possible words
  * @param meta_parse1          metamorphic parse to get possible words
@@ -891,7 +916,7 @@ int find_lcs_depth(const Array_list *path_to_root_of_syn_set1, const Array_list 
  * Returns the ID of LCS of path.
  *
  * @param path_to_root_of_syn_set1 first list of Strings
- * @param path_to_root_of_syn_set1 second list of Strings
+ * @param path_to_root_of_syn_set2 second list of Strings
  * @return LCS ID
  */
 char* find_lcs_id(const Array_list *path_to_root_of_syn_set1, const Array_list *path_to_root_of_syn_set2) {
@@ -914,7 +939,8 @@ Hash_node_ptr find_lcs(const Array_list *path_to_root_of_syn_set1, const Array_l
         if (array_list_contains(path_to_root_of_syn_set2,
                                              lcs_id,
                                              (int (*)(const void *, const void *)) compare_string)){
-            char* st1 = str_copy(st1, lcs_id);
+            char* st1 = NULL;
+            st1 = str_copy(st1, lcs_id);
             int* index = malloc_(sizeof(int), "find_lcs_1");
             *index = path_to_root_of_syn_set1->size - i + 1;
             return create_hash_node(st1, index);
@@ -928,6 +954,7 @@ Hash_node_ptr find_lcs(const Array_list *path_to_root_of_syn_set1, const Array_l
 /**
  * Finds the path to the root node of a SynSets.
  *
+ * @param word_net Current wordnet object
  * @param syn_set SynSet whose root path will be found
  * @return list of String corresponding to nodes in the path
  */
@@ -944,6 +971,7 @@ Array_list_ptr find_path_to_root(const Word_net *word_net, Syn_set_ptr syn_set) 
 /**
  * Finds the parent of a node. It does not move until the root, instead it goes one level up.
  *
+ * @param word_net Current wordnet object
  * @param root SynSet whose root will be find
  * @return root SynSet
  */
@@ -965,10 +993,11 @@ Syn_set_ptr percolate_up(const Word_net *word_net, Syn_set_ptr root) {
 /**
  * Changes ID of a specified SynSet with the specified new ID.
  *
+ * @param word_net Current wordnet object
  * @param s SynSet whose ID will be updated
  * @param new_id  new ID
  */
-void change_syn_set_id(Word_net_ptr word_net, Syn_set_ptr s, char *new_id) {
+void change_syn_set_id(Word_net_ptr word_net, Syn_set_ptr s, const char *new_id) {
     hash_map_remove(word_net->syn_set_list, s->id, NULL);
     free_(s->id);
     s->id = str_copy(s->id, new_id);

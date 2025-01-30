@@ -105,7 +105,8 @@ Semantic_relation_ptr get_semantic_relation(const Literal *literal, int index) {
 char *literal_to_string(const Literal *literal) {
     char tmp[MAX_LINE_LENGTH];
     sprintf(tmp, "%s %d", literal->name, literal->sense);
-    char* result = str_concat(result, tmp);
+    char* result = NULL;
+    result = str_concat(result, tmp);
     return result;
 }
 

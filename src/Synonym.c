@@ -11,7 +11,7 @@
 #include "Literal.h"
 
 /**
- * A constructor that creates a new {@link ArrayList} literals.
+ * A constructor that creates a new array of literals.
  */
 Synonym_ptr create_synonym() {
     Synonym_ptr result = malloc_(sizeof(Synonym), "create_synonym");
@@ -31,6 +31,7 @@ void free_synonym(Synonym_ptr synonym) {
 /**
  * Appends the specified Literal to the end of literals list.
  *
+ * @param synonym Current synonym object
  * @param literal element to be appended to the list
  */
 void add_literal_to_synonym(Synonym_ptr synonym, Literal_ptr literal) {
@@ -40,6 +41,7 @@ void add_literal_to_synonym(Synonym_ptr synonym, Literal_ptr literal) {
 /**
  * Returns the element at the specified position in literals list.
  *
+ * @param synonym Current synonym object
  * @param index index of the element to return
  * @return the element at the specified position in the list
  */
@@ -50,6 +52,7 @@ Literal_ptr get_literal(Synonym_ptr synonym, int index) {
 /**
  * Returns the element with the specified name in literals list.
  *
+ * @param synonym Current synonym object
  * @param name name of the element to return
  * @return the element with the specified name in the list
  */
@@ -66,6 +69,7 @@ Literal_ptr get_literal_with_name(Synonym_ptr synonym, const char *name) {
 /**
  * Returns <tt>true</tt> if literals list contains the specified literal.
  *
+ * @param synonym Current synonym object
  * @param literal element whose presence in the list is to be tested
  * @return <tt>true</tt> if the list contains the specified element
  */
@@ -76,6 +80,7 @@ bool contains_literal(Synonym_ptr synonym, const Literal *literal) {
 /**
  * Returns <tt>true</tt> if literals list contains the specified String literal.
  *
+ * @param synonym Current synonym object
  * @param name element whose presence in the list is to be tested
  * @return<tt>true</tt> if the list contains the specified element
  */
@@ -93,7 +98,8 @@ bool contains_literal_with_name(Synonym_ptr synonym, const char *name) {
  * Removes the first occurrence of the specified element from literals list,
  * if it is present. If the list does not contain the element, it stays unchanged.
  *
- * @param toBeRemoved element to be removed from the list, if present
+ * @param synonym Current synonym object
+ * @param literal element to be removed from the list, if present
  */
 void remove_literal(Synonym_ptr synonym, const Literal *literal) {
     int index = array_list_index_of(synonym->literals, literal, (int (*)(const void *, const void *)) compare_literal);
@@ -105,6 +111,7 @@ void remove_literal(Synonym_ptr synonym, const Literal *literal) {
 /**
  * Overridden toString method to print literals.
  *
+ * @param synonym Current synonym object
  * @return concatenated literals
  */
 char *synonym_to_string(const Synonym *synonym) {

@@ -57,9 +57,10 @@ void free_syn_set(Syn_set_ptr syn_set) {
 /**
  * Mutator method for the SynSet ID.
  *
- * @param _id SynSet ID to be set
+ * @param syn_set Current synset object
+ * @param id SynSet ID to be set
  */
-void set_id(Syn_set_ptr syn_set, char *id) {
+void set_id(Syn_set_ptr syn_set, const char *id) {
     for (int i = 0; i < syn_set->synonym->literals->size; i++){
         Literal_ptr literal = get_literal(syn_set->synonym, i);
         literal->syn_set_id = str_copy(literal->syn_set_id, id);
@@ -71,7 +72,8 @@ void set_id(Syn_set_ptr syn_set, char *id) {
 /**
  * Mutator method for the _definition.
  *
- * @param _definition String _definition
+ * @param syn_set Current synset object
+ * @param definition String _definition
  */
 void set_definition(Syn_set_ptr syn_set, const char *definition) {
     if (definition != NULL){
@@ -83,6 +85,7 @@ void set_definition(Syn_set_ptr syn_set, const char *definition) {
 /**
  * Accessor for the definition.
  *
+ * @param syn_set Current synset object
  * @return definition
  */
 char *get_definition(const Syn_set* syn_set) {
@@ -95,6 +98,7 @@ char *get_definition(const Syn_set* syn_set) {
 /**
  * Returns the first literal's name.
  *
+ * @param syn_set Current synset object
  * @return the first literal's name.
  */
 char *representative(const Syn_set* syn_set) {
@@ -105,6 +109,7 @@ char *representative(const Syn_set* syn_set) {
 /**
  * Returns all the definitions in the list.
  *
+ * @param syn_set Current synset object
  * @return all the definitions
  */
 char *get_long_definition(const Syn_set* syn_set) {
@@ -128,6 +133,7 @@ int compare_definitions(const char *definition1, const char *definition2) {
 
 /**
  * Sorts definitions list according to their lengths.
+ * @param syn_set Current synset object
  */
 void sort_definitions(Syn_set_ptr syn_set) {
     array_list_sort(syn_set->definition, (int (*)(const void *, const void *)) compare_definitions);
@@ -136,6 +142,7 @@ void sort_definitions(Syn_set_ptr syn_set) {
 /**
  * Accessor for the definition at specified index.
  *
+ * @param syn_set Current synset object
  * @param index definition index to be accessed
  * @return definition at specified index
  */
@@ -150,6 +157,7 @@ char *get_definition_with_index(const Syn_set* syn_set, int index) {
 /**
  * Returns number of definitions in the list.
  *
+ * @param syn_set Current synset object
  * @return number of definitions in the list.
  */
 int number_of_definitions(const Syn_set* syn_set) {
@@ -159,7 +167,8 @@ int number_of_definitions(const Syn_set* syn_set) {
 /**
  * Mutator for the _bcs value which enables the connection with the BalkaNet.
  *
- * @param _bcs _bcs value
+ * @param syn_set Current synset object
+ * @param bcs _bcs value
  */
 void set_bcs(Syn_set_ptr syn_set, int bcs) {
     if (bcs >= 1 && bcs <= 3){
@@ -170,7 +179,9 @@ void set_bcs(Syn_set_ptr syn_set, int bcs) {
 /**
  * Appends the specified Relation to the end of relations list.
  *
+ * @param syn_set Current synset object
  * @param relation element to be appended to the list
+ * @param type Type of the relation
  */
 void add_relation_to_syn_set(Syn_set_ptr syn_set, void* relation, int type) {
     array_list_add(syn_set->relations, relation);
@@ -181,7 +192,8 @@ void add_relation_to_syn_set(Syn_set_ptr syn_set, void* relation, int type) {
  * Removes the first occurrence of the specified element from relations list,
  * if it is present. If the list does not contain the element, it stays unchanged.
  *
- * @param relation element to be removed from the list, if present
+ * @param syn_set Current synset object
+ * @param _relation element to be removed from the list, if present
  */
 void remove_relation_from_syn_set(Syn_set_ptr syn_set, void* _relation) {
     int index = -1, type;
@@ -217,9 +229,10 @@ void remove_relation_from_syn_set(Syn_set_ptr syn_set, void* _relation) {
  * Removes the first occurrence of the specified element from relations list according to relation name,
  * if it is present. If the list does not contain the element, it stays unchanged.
  *
+ * @param syn_set Current synset object
  * @param name element to be removed from the list, if present
  */
-void remove_relation_with_name(Syn_set_ptr syn_set, char *name) {
+void remove_relation_with_name(Syn_set_ptr syn_set, const char *name) {
     int index = -1, type;
     for (int i = 0; i < syn_set->relations->size; i++){
         type = array_list_get_int(syn_set->relation_types, i);
@@ -250,6 +263,7 @@ void remove_relation_with_name(Syn_set_ptr syn_set, char *name) {
 /**
  * Returns the element at the specified position in relations list.
  *
+ * @param syn_set Current synset object
  * @param index index of the element to return
  * @return the element at the specified position in the list
  */
@@ -260,6 +274,7 @@ void* get_relation(const Syn_set* syn_set, int index) {
 /**
  * Returns interlingual relations with the synonym interlingual dependencies.
  *
+ * @param syn_set Current synset object
  * @return a list of SynSets that has interlingual relations in it
  */
 Array_list_ptr get_interlingual_of_syn_set(const Syn_set* syn_set) {
@@ -280,6 +295,7 @@ Array_list_ptr get_interlingual_of_syn_set(const Syn_set* syn_set) {
 /**
  * Returns the size of the relations list.
  *
+ * @param syn_set Current synset object
  * @return the size of the relations list
  */
 int relation_size(const Syn_set *syn_set) {
@@ -289,6 +305,7 @@ int relation_size(const Syn_set *syn_set) {
 /**
  * Adds a specified literal to the synonym.
  *
+ * @param syn_set Current synset object
  * @param literal literal to be added
  */
 void add_literal_to_syn_set(Syn_set_ptr syn_set, Literal_ptr literal) {
@@ -298,7 +315,8 @@ void add_literal_to_syn_set(Syn_set_ptr syn_set, Literal_ptr literal) {
 /**
  * Compares literals of synonym and the specified SynSet, returns true if their have same literals.
  *
- * @param synSet SynSet to compare
+ * @param syn_set1 SynSet 1 to compare
+ * @param syn_set2 SynSet 2 to compare
  * @return true if SynSets have same literals, false otherwise
  */
 bool contains_same_literal(const Syn_set* syn_set1, const Syn_set* syn_set2) {
@@ -317,7 +335,9 @@ bool contains_same_literal(const Syn_set* syn_set1, const Syn_set* syn_set2) {
 /**
  * Returns <tt>true</tt> if relations list contains the specified relation.
  *
+ * @param syn_set Current synSet object
  * @param relation element whose presence in the list is to be tested
+ * @param type Type of the relation
  * @return <tt>true</tt> if the list contains the specified element
  */
 bool contains_relation_in_syn_set(const Syn_set *syn_set, void *relation, int type) {
@@ -344,8 +364,9 @@ bool contains_relation_in_syn_set(const Syn_set *syn_set, void *relation, int ty
 /**
  * Returns <tt>true</tt> if specified semantic relation type presents in the relations list.
  *
- * @param semanticRelationType element whose presence in the list is to be tested
- * @return <<tt>true</tt> if specified semantic relation type presents in the relations list
+ * @param syn_set Current synSet object
+ * @param relation_type element whose presence in the list is to be tested
+ * @return true if specified semantic relation type presents in the relations list
  */
 bool contains_relation_type_in_syn_set(const Syn_set *syn_set, Semantic_relation_type relation_type) {
     for (int i = 0; i < syn_set->relation_types->size; i++){
@@ -362,6 +383,7 @@ bool contains_relation_type_in_syn_set(const Syn_set *syn_set, Semantic_relation
 /**
  * Overridden toString method to print the first definition or representative.
  *
+ * @param syn_set Current synSet object
  * @return print the first definition or representative.
  */
 char *syn_set_to_string(const Syn_set *syn_set) {

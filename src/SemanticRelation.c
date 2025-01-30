@@ -60,8 +60,8 @@ Semantic_relation_ptr create_semantic_relation(const char *name, const char *rel
  * Another constructor that initializes relation type, relation name, and the index.
  *
  * @param name         name of the relation
- * @param relationType String semantic dependency tag
- * @param toIndex      index of the relation
+ * @param relation_type String semantic dependency tag
+ * @param to_index      index of the relation
  */
 Semantic_relation_ptr create_semantic_relation2(const char *name, Semantic_relation_type relation_type, int to_index) {
     Semantic_relation_ptr result = malloc_(sizeof(Semantic_relation), "create_semantic_relation2");
@@ -74,7 +74,7 @@ Semantic_relation_ptr create_semantic_relation2(const char *name, Semantic_relat
 /**
  * Returns the reverse of a specific semantic relation type.
  *
- * @param semanticRelationType semantic relation type to be reversed
+ * @param semantic_relation_type semantic relation type to be reversed
  * @return reversed version of the semantic relation type
  */
 Semantic_relation_type reverse_semantic_relation(Semantic_relation_type semantic_relation_type) {
