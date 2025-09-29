@@ -114,10 +114,11 @@ char *representative(const Syn_set* syn_set) {
  */
 char *get_long_definition(const Syn_set* syn_set) {
     if (syn_set->definition->size > 0){
-        char tmp[MAX_LINE_LENGTH];
+        char tmp[MAX_LINE_LENGTH], tmp1[MAX_LINE_LENGTH];
         sprintf(tmp, "%s", (char*) array_list_get(syn_set->definition, 0));
         for (int i = 1; i < syn_set->definition->size; i++){
-            sprintf(tmp, "%s|%s", tmp, (char*) array_list_get(syn_set->definition, i));
+            sprintf(tmp1, "%s|%s", tmp, (char*) array_list_get(syn_set->definition, i));
+            strcpy(tmp, tmp1);
         }
         return clone_string(tmp);
     } else {
