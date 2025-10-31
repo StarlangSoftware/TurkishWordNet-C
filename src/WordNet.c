@@ -93,11 +93,12 @@ void read_word_net(Word_net_ptr word_net, const char *file_name) {
                                             Array_list_ptr syn_set_list;
                                             if (hash_map_contains(word_net->interlingual_list, interlingual_id)){
                                                 syn_set_list = hash_map_get(word_net->interlingual_list, interlingual_id);
+                                                array_list_add(syn_set_list, current_syn_set);
                                             } else {
                                                 syn_set_list = create_array_list();
+                                                array_list_add(syn_set_list, current_syn_set);
+                                                hash_map_insert(word_net->interlingual_list, clone_string(interlingual_id), syn_set_list);
                                             }
-                                            array_list_add(syn_set_list, current_syn_set);
-                                            hash_map_insert(word_net->interlingual_list, interlingual_id, syn_set_list);
                                             add_relation_to_syn_set(current_syn_set, create_interlingual_relation(interlingual_id, type_node->pcData), INTERLINGUAL_RELATION);
                                         }
                                     } else {
@@ -159,6 +160,7 @@ void read_word_net(Word_net_ptr word_net, const char *file_name) {
         }
         syn_set_node = syn_set_node->next_sibling;
     }
+    free_document(doc);
 }
 
 /**
@@ -201,6 +203,7 @@ void read_exception_file(Word_net_ptr word_net, const char *exception_file_name)
         }
         word_node = word_node->next_sibling;
     }
+    free_document(doc);
 }
 
 /**
@@ -208,7 +211,7 @@ void read_exception_file(Word_net_ptr word_net, const char *exception_file_name)
  * on a <i>worker</i> thread.
  */
 Word_net_ptr create_word_net() {
-    Word_net_ptr result = malloc_(sizeof(Word_net), "create_word_net");
+    Word_net_ptr result = malloc_(sizeof(Word_net));
     result->interlingual_list = create_string_hash_map();
     result->exception_list = create_string_hash_map();
     result->literal_list = create_string_hash_map();
@@ -224,7 +227,7 @@ Word_net_ptr create_word_net() {
  * @param file_name resource to be read for the WordNet task
  */
 Word_net_ptr create_word_net2(const char *file_name) {
-    Word_net_ptr result = malloc_(sizeof(Word_net), "create_word_net2");
+    Word_net_ptr result = malloc_(sizeof(Word_net));
     result->interlingual_list = create_string_hash_map();
     result->exception_list = create_string_hash_map();
     result->literal_list = create_string_hash_map();
@@ -243,7 +246,7 @@ Word_net_ptr create_word_net2(const char *file_name) {
  * @param exception_file_name exception file to be read
  */
 Word_net_ptr create_word_net3(const char *file_name, const char *exception_file_name) {
-    Word_net_ptr result = malloc_(sizeof(Word_net), "create_word_net3");
+    Word_net_ptr result = malloc_(sizeof(Word_net));
     result->interlingual_list = create_string_hash_map();
     result->exception_list = create_string_hash_map();
     result->literal_list = create_string_hash_map();
@@ -263,11 +266,12 @@ void add_literal_to_literal_list(Word_net_ptr word_net, Literal_ptr literal) {
     Array_list_ptr literals;
     if (hash_map_contains(word_net->literal_list, literal->name)){
         literals = hash_map_get(word_net->literal_list, literal->name);
+        array_list_add(literals, literal);
     } else {
         literals = create_array_list();
+        array_list_add(literals, literal);
+        hash_map_insert(word_net->literal_list, clone_string(literal->name), literals);
     }
-    array_list_add(literals, literal);
-    hash_map_insert(word_net->literal_list, literal->name, literals);
 }
 
 /**
@@ -516,7 +520,7 @@ Array_list_ptr get_interlingual_of_word_net(const Word_net *word_net, const char
     if (hash_map_contains(word_net->interlingual_list, syn_set_id)){
         return hash_map_get(word_net->interlingual_list, syn_set_id);
     } else {
-        return create_array_list();
+        return NULL;
     }
 }
 
@@ -941,12 +945,12 @@ Hash_node_ptr find_lcs(const Array_list *path_to_root_of_syn_set1, const Array_l
                                              (int (*)(const void *, const void *)) compare_string)){
             char* st1 = NULL;
             st1 = str_copy(st1, lcs_id);
-            int* index = malloc_(sizeof(int), "find_lcs_1");
+            int* index = malloc_(sizeof(int));
             *index = path_to_root_of_syn_set1->size - i + 1;
             return create_hash_node(st1, index);
         }
     }
-    int* index = malloc_(sizeof(int), "find_lcs_2");
+    int* index = malloc_(sizeof(int));
     *index = -1;
     return create_hash_node(NULL, index);
 }
@@ -1009,22 +1013,9 @@ void change_syn_set_id(Word_net_ptr word_net, Syn_set_ptr s, const char *new_id)
  * @param word_net WordNet to be deallocated.
  */
 void free_word_net(Word_net_ptr word_net) {
+    free_hash_map_of_array_list(word_net->interlingual_list, free_);
+    free_hash_map_of_array_list(word_net->literal_list, free_);
     free_hash_map(word_net->syn_set_list, (void (*)(void *)) free_syn_set);
-    Array_list_ptr list = key_list(word_net->literal_list);
-    for (int i = 0; i < list->size; i++){
-        Array_list_ptr list2 = hash_map_get(word_net->literal_list, array_list_get(list, i));
-        if (list2 != NULL){
-            free_array_list(list2, NULL);
-        }
-    }
-    free_array_list(list, NULL);
-    free_hash_map(word_net->literal_list, NULL);
     free_hash_map(word_net->exception_list, (void (*)(void *)) free_exceptional_word);
-    list = key_list(word_net->interlingual_list);
-    for (int i = 0; i < list->size; i++){
-        Array_list_ptr list2 = hash_map_get(word_net->interlingual_list, array_list_get(list, i));
-        free_array_list(list2, NULL);
-    }
-    free_array_list(list, NULL);
     free_(word_net);
 }

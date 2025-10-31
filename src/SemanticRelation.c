@@ -49,7 +49,7 @@ Semantic_relation_type get_semantic_tag(const char *tag) {
  * @param to_index      index of the relation
  */
 Semantic_relation_ptr create_semantic_relation(const char *name, const char *relation_type, int to_index) {
-    Semantic_relation_ptr result = malloc_(sizeof(Semantic_relation), "create_semantic_relation");
+    Semantic_relation_ptr result = malloc_(sizeof(Semantic_relation));
     result->name = str_copy(result->name, name);
     result->relation_type = get_semantic_tag(relation_type);
     result->to_index = to_index;
@@ -64,7 +64,7 @@ Semantic_relation_ptr create_semantic_relation(const char *name, const char *rel
  * @param to_index      index of the relation
  */
 Semantic_relation_ptr create_semantic_relation2(const char *name, Semantic_relation_type relation_type, int to_index) {
-    Semantic_relation_ptr result = malloc_(sizeof(Semantic_relation), "create_semantic_relation2");
+    Semantic_relation_ptr result = malloc_(sizeof(Semantic_relation));
     result->name = str_copy(result->name, name);
     result->relation_type = relation_type;
     result->to_index = to_index;

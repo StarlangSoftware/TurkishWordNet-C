@@ -16,7 +16,7 @@
  * @param synSetId ID of the SynSet
  */
 Literal_ptr create_literal(const char *name, int sense, const char *syn_set_id) {
-    Literal_ptr result = malloc_(sizeof(Literal), "create_literal");
+    Literal_ptr result = malloc_(sizeof(Literal));
     result->name = str_copy(result->name, name);
     result->sense = sense;
     result->syn_set_id = str_copy(result->syn_set_id, syn_set_id);

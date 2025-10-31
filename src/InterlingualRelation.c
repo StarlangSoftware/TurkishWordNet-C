@@ -41,7 +41,7 @@ Interlingual_dependency_type get_interlingual_dependency_tag(const char *tag) {
  * @param dependency_type interlingual dependency type
  */
 Interlingual_relation_ptr create_interlingual_relation(const char *name, const char *dependency_type) {
-    Interlingual_relation_ptr result = malloc_(sizeof(Interlingual_relation), "create_interlingual_relation");
+    Interlingual_relation_ptr result = malloc_(sizeof(Interlingual_relation));
     result->name = str_copy(result->name, name);
     result->dependency_type = get_interlingual_dependency_tag(dependency_type);
     return result;

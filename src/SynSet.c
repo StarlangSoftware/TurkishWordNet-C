@@ -17,7 +17,7 @@
  * @param id Synset ID
  */
 Syn_set_ptr create_syn_set(const char *id) {
-    Syn_set_ptr result = malloc_(sizeof(Syn_set), "create_syn_set");
+    Syn_set_ptr result = malloc_(sizeof(Syn_set));
     result->id = str_copy(result->id, id);
     result->definition = create_array_list();
     result->example = NULL;
@@ -43,7 +43,7 @@ void free_syn_set(Syn_set_ptr syn_set) {
             free_interlingual_relation(array_list_get(syn_set->relations, i));
         }
     }
-    free_(syn_set->relations);
+    free_array_list(syn_set->relations, NULL);
     free_array_list(syn_set->relation_types, free_);
     free_array_list(syn_set->definition, free_);
     free_(syn_set->id);

@@ -2,6 +2,8 @@
 // Created by Olcay Taner YILDIZ on 25.11.2023.
 //
 
+#include <Memory/Memory.h>
+
 #include "../src/WordNet.h"
 
 void test_get_syn_set_with_id_single(Word_net_ptr turkish, char* id){
@@ -89,6 +91,7 @@ void test_get_syn_sets_with_part_of_speech_single(Word_net_ptr turkish, Pos pos,
     if (list->size != count){
         printf("Error with pos %d with %d\n", pos, list->size);
     }
+    free_array_list(list, NULL);
 }
 
 void test_get_syn_sets_with_part_of_speech(Word_net_ptr turkish){
@@ -103,7 +106,8 @@ void test_get_syn_sets_with_part_of_speech(Word_net_ptr turkish){
 }
 
 void test_get_interlingual_single(Word_net_ptr turkish, char* id, int count){
-    if (get_interlingual_of_word_net(turkish, id)->size != count){
+    Array_list_ptr list = get_interlingual_of_word_net(turkish, id);
+    if (list != NULL && list->size != count){
         printf("Error in interlingual of %s with %d\n", id, count);
     }
 }
@@ -122,6 +126,7 @@ void test_get_interlingual(Word_net_ptr turkish){
 }
 
 int main(){
+    start_x_large_memory_check();
     Word_net_ptr turkish = create_word_net();
     if (turkish->literal_list->count != 82276){
         printf("Error in literal list size %d\n", turkish->literal_list->count);
@@ -145,4 +150,5 @@ int main(){
     test_get_syn_sets_with_part_of_speech(turkish);
     test_get_interlingual(turkish);
     free_word_net(turkish);
+    end_memory_check();
 }

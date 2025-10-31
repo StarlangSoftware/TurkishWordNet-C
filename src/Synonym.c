@@ -14,7 +14,7 @@
  * A constructor that creates a new array of literals.
  */
 Synonym_ptr create_synonym() {
-    Synonym_ptr result = malloc_(sizeof(Synonym), "create_synonym");
+    Synonym_ptr result = malloc_(sizeof(Synonym));
     result->literals = create_array_list();
     return result;
 }
